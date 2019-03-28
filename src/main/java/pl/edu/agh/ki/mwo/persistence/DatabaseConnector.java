@@ -91,4 +91,38 @@ public class DatabaseConnector {
 		}
 		transaction.commit();
 	}
+	
+	public Iterable<Student> getStudents(){
+		String hql = "FROM Student";
+		Query query = session.createQuery(hql);
+		List students = query.list();
+		
+		return students;
+	}
+	
+	public void addStudent(Student student, String classID) {
+		String hql = "FROM SchoolClass S WHERE S.id=" + classID;
+		Query query = session.createQuery(hql);
+		List<SchoolClass> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		if(results.size() == 0) {
+			session.save(student);
+		} else {
+			SchoolClass schoolClass = results.get(0);
+			schoolClass.addStudent(student);
+			session.save(schoolClass);
+		}
+		transaction.commit();
+	}
+	
+	public void deleteStudent(String studentID) {
+		String hql = "FROM Student S WHERE S.id=" + studentID;
+		Query query = session.createQuery(hql);
+		List<Student> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		for (Student s: results) {
+			session.delete(s);
+		}
+		transaction.commit();
+	}
 }

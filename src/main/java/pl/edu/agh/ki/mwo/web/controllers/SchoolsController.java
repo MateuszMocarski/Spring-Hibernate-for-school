@@ -15,7 +15,7 @@ import pl.edu.agh.ki.mwo.persistence.DatabaseConnector;
 public class SchoolsController {
 
     @RequestMapping(value="/Schools")
-    public String listStudents(Model model, HttpSession session) {    	
+    public String listSchools(Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
     		return "redirect:/Login";
 
