@@ -21,6 +21,7 @@ public class SchoolClassesController {
     		return "redirect:/Login";
 
     	model.addAttribute("schoolClasses", DatabaseConnector.getInstance().getSchoolClasses());
+    	model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
     	
         return "schoolClassesList";    
     }
@@ -51,6 +52,7 @@ public class SchoolClassesController {
     	
     	DatabaseConnector.getInstance().addSchoolClass(schoolClass, schoolId);    	
        	model.addAttribute("schoolClasses", DatabaseConnector.getInstance().getSchoolClasses());
+       	model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
     	model.addAttribute("message", "Nowa klasa została dodana");
          	
     	return "schoolClassesList";
@@ -64,6 +66,7 @@ public class SchoolClassesController {
     	
     	DatabaseConnector.getInstance().deleteSchoolClass(schoolClassId);    	
        	model.addAttribute("schoolClasses", DatabaseConnector.getInstance().getSchoolClasses());
+       	model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
     	model.addAttribute("message", "Klasa została usunięta");
          	
     	return "schoolClassesList";

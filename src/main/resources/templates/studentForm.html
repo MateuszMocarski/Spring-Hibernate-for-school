@@ -11,9 +11,9 @@
 						<tr><td>Imię:</td><td><input type="text" name="studentName" /></td></tr>
 						<tr><td>Nazwisko:</td><td><input type="text" name="studentSurname" /></td></tr>
 						<tr><td>PESEL:</td><td><input type="text" name="studentPESEL" /></td></tr>
-						<tr><td>Klasa:</td><td><select class="form-control" name="studentSchoolClass" id="studentSchoolClass">
+						<tr><td>Szkoła i profil:</td><td><select class="form-control" name="studentSchoolClass" id="studentSchoolClass">
 											    <option value="-1">---</option>
-											    <option th:each="schoolClass: ${schoolClasses}" th:value="${schoolClass.id}" th:text="${schoolClass.profile} + ', ' + ${schoolClass.currentYear} + ', ' + ${schoolClass.startYear}"></option>
+											    <option th:each="schoolClass: ${schoolClassSchool}" th:value="${schoolClass[1].id}" th:text="${schoolClass[0].name} + ', profil: ' + ${schoolClass[1].profile}"></option>
 											    </select></td></tr>
 					</table><br/><BR/>
 					<input type="submit" value="Utwórz"/>

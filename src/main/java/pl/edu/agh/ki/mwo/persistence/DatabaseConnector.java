@@ -41,6 +41,13 @@ public class DatabaseConnector {
 		return schools;
 	}
 	
+	public List<School> getSchool(String schoolId) {
+		System.out.println(schoolId);
+		Query q = session.createQuery("FROM School s WHERE s.id = " + schoolId);
+		List<School> results = q.list();
+		return results; 
+	}
+	
 	public void addSchool(School school) {
 		Transaction transaction = session.beginTransaction();
 		session.save(school);
@@ -101,7 +108,7 @@ public class DatabaseConnector {
 	}
 	
 	public void addStudent(Student student, String classID) {
-		String hql = "FROM SchoolClass S WHERE S.id=" + classID;
+		String hql = "FROM SchoolClass sc WHERE sc.id=" + classID;
 		Query query = session.createQuery(hql);
 		List<SchoolClass> results = query.list();
 		Transaction transaction = session.beginTransaction();
@@ -120,9 +127,23 @@ public class DatabaseConnector {
 		Query query = session.createQuery(hql);
 		List<Student> results = query.list();
 		Transaction transaction = session.beginTransaction();
-		for (Student s: results) {
+		for (Student s : results) {
 			session.delete(s);
-		}
+		} 
 		transaction.commit();
+	}
+	
+	public List<SchoolClass> joinClassWithSchool() {
+		String hql = "SELECT s, c FROM School s JOIN s.classes c";
+		Query q = session.createQuery(hql);
+		List<SchoolClass> classWithSchool = q.list();
+		return classWithSchool;	
+	}
+	
+	public List<Student> joinStudentWithClass(){
+		String hql = "SELECT c, s FROM SchoolClass c JOIN c.students s";
+		Query q = session.createQuery(hql);
+		List<Student> studentWithClass = q.list();
+		return studentWithClass;
 	}
 }

@@ -11,17 +11,18 @@
     	<div th:include="menuFragment" ></div>
 		<br/><Br/>
 		<table border="1" cellpadding="5">
-			<tr><th>Id</th><th>Imię</th><th>Nazwisko</th><th>PESEL</th><th>Akcje</th></tr>
-			<tr th:each="student: ${students}">
-
-				<td><span th:text="${student.id}" /></td>
-				<td><span th:text="${student.name}" /></td>
-				<td><span th:text="${student.surname}" /></td>				
-				<td><span th:text="${student.pesel}" /></td>
-				
+			<tr><th>Id ucznia</th><th>Imię</th><th>Nazwisko</th><th>Profil klasy</th><th>PESEL</th><th>Obecny rok</th><th>Rok rozpoczęcia</th><th>Akcje</th></tr>
+			<tr th:each="student: ${studentWithClass}">
+				<td><span th:text="${student[1].id}" /></td>
+				<td><span th:text="${student[1].name}" /></td>
+				<td><span th:text="${student[1].surname}" /></td>
+				<td><span th:text="${student[0].profile}" /></td>				
+				<td><span th:text="${student[1].pesel}" /></td>
+				<td><span th:text="${student[0].currentYear}" /></td>
+				<td><span th:text="${student[0].startYear}" /></td>
 		        <td>
 		            <form action="DeleteStudent" method="POST">
-		            	<input type="hidden" name="studentId" th:value="${student.id}" />
+		            	<input type="hidden" name="studentId" th:value="${student[1].id}" />
 		                <button type="submit">X</button>
 		            </form>
 		        </td>

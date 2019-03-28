@@ -6,13 +6,22 @@
     <div layout:fragment="content">
     <div th:include="menuFragment" ></div>
     	<br/><br/>
-	   			<form action="CreateSchool" method="POST">
-					<table>
-						<tr><td>nazwa:</td><td><input type="text" name="schoolName" /></td></tr>
-						<tr><td>adres:</td><td><input type="text" name="schoolAddress" /></td></tr>
-					</table><br/><BR/>
-					<input type="submit" value="Utwórz"/>
-				</form>
+	   			<form th:action="${school} ? 'UpdateSchool' : 'CreateSchool'" method="POST">
+			<input type="hidden" name="schoolId" th:value="${school} ? ${school[0].id} : ''"></input>
+			<table>
+				<tr>
+					<td>nazwa:</td>
+					<td><input type="text" name="schoolName" th:value="${school} ? ${school[0].name} : ''" /></td>
+				</tr>
+				<tr>
+					<td>adres:</td>
+					<td><input type="text" name="schoolAddress" th:value="${school} ? ${school[0].address} : ''" /></td>
+				</tr>
+			</table><br /><BR />
+			<button class="btn btn-primary" type="submit">
+				<span th:text="${school} ? 'Edytuj' : 'Utwórz'"></span>
+			</button>
+		</form>
     </div>
 
 </body>

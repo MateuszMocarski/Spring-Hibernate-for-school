@@ -62,6 +62,35 @@ public class SchoolsController {
          	
     	return "schoolsList";
     }
+    @RequestMapping(value = "/EditSchool")
+	public String editSchool(@RequestParam(value = "schoolId", required = false) String schoolId, Model model,
+			HttpSession session) {
+		if (session.getAttribute("userLogin") == null)
+			return "redirect:/Login";
+		
+    	model.addAttribute("schools", DatabaseConnector.getInstance().getSchools());
+		model.addAttribute("school", DatabaseConnector.getInstance().getSchool(schoolId));
+		return "schoolForm";
+	}
+    
+    @RequestMapping(value="/UpdateSchool", method=RequestMethod.POST)
+    public String updateSchool(@RequestParam(value = "schoolId", required = false) String schoolId,
+    		@RequestParam(value="schoolName", required=false) String name,
+    		@RequestParam(value="schoolAddress", required=false) String address,
+    		Model model, HttpSession session) {    	
+    	if (session.getAttribute("userLogin") == null)
+    		return "redirect:/Login";
+    	
+    	School school = DatabaseConnector.getInstance().getSchool(schoolId).get(0);
+    	school.setName(name);
+    	school.setAddress(address);
+    	DatabaseConnector.getInstance().addSchool(school);    	
+    	
+       	model.addAttribute("schools", DatabaseConnector.getInstance().getSchools());
+    	model.addAttribute("message", "Szkoła wyedytowana");
+         	
+    	return "schoolsList";
+    }
 
 
 }

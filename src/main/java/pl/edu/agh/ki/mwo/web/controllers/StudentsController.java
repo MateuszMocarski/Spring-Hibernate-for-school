@@ -20,6 +20,7 @@ public class StudentsController {
     		return "redirect:/Login";
 
     	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
+    	model.addAttribute("studentWithClass", DatabaseConnector.getInstance().joinStudentWithClass());
     	
         return "studentsList";
 	}
@@ -29,14 +30,16 @@ public class StudentsController {
     	if (session.getAttribute("userLogin") == null)
     		return "redirect:/Login";
     	
+    	model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
+    	model.addAttribute("studentWithClass", DatabaseConnector.getInstance().joinStudentWithClass());
+    	
         return "studentForm";    
     }
 	
 	@RequestMapping(value="/CreateStudent", method=RequestMethod.POST)
     public String createStudent(@RequestParam(value="studentName", required=true) String name,
-    		@RequestParam(value="studentSurname", required=true) String surname,
-    		@RequestParam(value="studentPESEL", required=true) String PESEL,
-    		@RequestParam(value="studentSchool", required=false) String schoolID,
+    		@RequestParam(value="studentSurname", required=false) String surname,
+    		@RequestParam(value="studentPESEL", required=false) String PESEL,
     		@RequestParam(value="studentSchoolClass", required=false) String classID,
     		Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
@@ -51,19 +54,22 @@ public class StudentsController {
     	
     	DatabaseConnector.getInstance().addStudent(student, classID);    	
        	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
+       	model.addAttribute("schoolClasses", DatabaseConnector.getInstance().getSchoolClasses());
+       	model.addAttribute("studentWithClass", DatabaseConnector.getInstance().joinStudentWithClass());
     	model.addAttribute("message", "Nowy uczeń został dodany");
          	
     	return "studentsList";
     }
 	
 	@RequestMapping(value="/DeleteStudent", method=RequestMethod.POST)
-    public String deleteSchool(@RequestParam(value="studentId", required=false) String studentId,
+    public String deleteStudent(@RequestParam(value="studentId", required=false) String studentId,
     		Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
     		return "redirect:/Login";
     	
     	DatabaseConnector.getInstance().deleteStudent(studentId);    	
        	model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
+       	model.addAttribute("studentWithClass", DatabaseConnector.getInstance().joinStudentWithClass());
     	model.addAttribute("message", "Uczeń został usunięty");
          	
     	return "studentsList";
