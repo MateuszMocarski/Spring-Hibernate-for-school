@@ -13,15 +13,19 @@
 		<table border="1" cellpadding="5">
 			<tr><th>Szkoła</th><th>Id klasy</th><th>Rok rozpoczęcia</th><th>Obecny rok</th><th>Profil</th><th>Akcje</th></tr>
 			<tr th:each="schoolClass: ${schoolClassSchool}">
-				<td><span th:text="${schoolClass[0].name}" /></td>
-				<td><span th:text="${schoolClass[1].id}" /></td>
-				<td><span th:text="${schoolClass[1].startYear}" /></td>
-				<td><span th:text="${schoolClass[1].currentYear}" /></td>
-				<td><span th:text="${schoolClass[1].profile}" /></td>
+				<td><span th:text="${schoolClass[1].name}" /></td>
+				<td><span th:text="${schoolClass[0].id}" /></td>
+				<td><span th:text="${schoolClass[0].startYear}" /></td>
+				<td><span th:text="${schoolClass[0].currentYear}" /></td>
+				<td><span th:text="${schoolClass[0].profile}" /></td>
 		        <td>
 		            <form action="DeleteSchoolClass" method="POST">
-		            	<input type="hidden" name="schoolClassId" th:value="${schoolClass[1].id}" />
-		                <button type="submit">X</button>
+		            	<input type="hidden" name="schoolClassId" th:value="${schoolClass[0].id}" />
+		                <button type="submit">Usuń</button>
+		            </form>
+		            <form action="EditSchoolClass" method="POST">
+		            	<input type="hidden" name="schoolClassId" th:value="${schoolClass[0].id}" />
+		                <button type="submit">Edytuj</button>
 		            </form>
 		        </td>
 			</tr>

@@ -6,17 +6,39 @@
     <div layout:fragment="content">
     <div th:include="menuFragment" ></div>
     	<br/><br/>
-	   			<form action="CreateSchoolClass" method="POST">
-					<table>
-						<tr><td>rok rozpoczęcia:</td><td><input type="text" name="schoolClassStartYear" /></td></tr>
-						<tr><td>obecny rok:</td><td><input type="text" name="schoolClassCurrentYear" /></td></tr>
-						<tr><td>profil:</td><td><input type="text" name="schoolClassProfile" /></td></tr>
-						<tr><td>szkoła:</td><td><select class="form-control" name="schoolClassSchool" id="schoolClassSchool">
-											    <option value="-1">---</option>
-											    <option th:each="school: ${schools}" th:value="${school.id}" th:text="${school.name} + ', ' + ${school.address}"></option>
-											    </select></td></tr>
-					</table><br/><BR/>
-					<input type="submit" value="Utwórz"/>
+	   			<form th:action="${schoolClass} ? 'UpdateSchoolClass' : 'CreateSchoolClass'" method="POST">
+					<input type="hidden" name="classId" th:value="${schoolClass} ? ${schoolClass[0].id} : ''"></input>
+            <table>
+                <tr>
+                    <td>profil:</td>
+                    <td><input type="text" name="classProfile"
+                            th:value="${schoolClass} ? ${schoolClass[0].profile} : ''" /></td>
+                </tr>
+                <tr>
+                    <td>rok:</td>
+                    <td><input type="text" name="classCurrentYear"
+                            th:value="${schoolClass} ? ${schoolClass[0].currentYear} : ''" /></td>
+                </tr>
+                <tr>
+                    <td>rok rozpoczecia:</td>
+                    <td><input type="text" name="classStartYear"
+                            th:value="${schoolClass} ? ${schoolClass[0].startYear} : ''" /></td>
+                </tr>
+                <tr>
+                    <td>szkoła:</td>
+                    <td>
+                        <select name="classSchool">
+                            <option th:each="school: ${schoolList}" th:value="${school.id}"
+                                th:selected="(${schoolID} == ${school.id})">
+                                <span th:text="${school.name}" />
+                                (<span th:text="${school.address}" />)
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </table><br /><BR />
+            <button class="btn btn-primary" type="submit"><span
+                    th:text="${schoolClass} ? 'Edytuj' : 'Utwórz'"></span></button>
 				</form>
     </div>
 

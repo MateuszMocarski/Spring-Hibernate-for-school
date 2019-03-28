@@ -140,10 +140,25 @@ public class DatabaseConnector {
 		return classWithSchool;	
 	}
 	
+	public List<SchoolClass> getClassesJoinSchool() {
+		String hql = "SELECT c, s FROM School s JOIN s.classes c";
+		Query query = session.createQuery(hql);
+		List<SchoolClass> classes = query.list();
+
+		return classes;
+	}
+	
 	public List<Student> joinStudentWithClass(){
 		String hql = "SELECT c, s FROM SchoolClass c JOIN c.students s";
 		Query q = session.createQuery(hql);
 		List<Student> studentWithClass = q.list();
 		return studentWithClass;
+	}
+
+	public List<SchoolClass> getSchoolClass(String classId) {
+		Query q = session.createQuery("FROM SchoolClass sc WHERE sc.id=" + classId);
+		List<SchoolClass> results = q.list();
+		
+		return results;
 	}
 }
