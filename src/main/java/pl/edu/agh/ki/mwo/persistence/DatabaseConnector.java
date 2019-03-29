@@ -132,6 +132,12 @@ public class DatabaseConnector {
 		} 
 		transaction.commit();
 	}
+	public List<Student> getStudent(String studentId) {
+		Query q = session.createQuery("FROM Student s WHERE s.id=" + studentId);
+		List<Student> results = q.list();
+		
+		return results;
+	}
 	
 	public List<SchoolClass> joinClassWithSchool() {
 		String hql = "SELECT s, c FROM School s JOIN s.classes c";
@@ -160,5 +166,11 @@ public class DatabaseConnector {
 		List<SchoolClass> results = q.list();
 		
 		return results;
+	}
+	public List<Student> joinStudentWithClassAndSchool(){
+		String hql = "SELECT sch, sc, stu FROM School sch JOIN sch.classes sc JOIN sc.students stu";
+		Query q = session.createQuery(hql);
+		List<Student> listOfStudents = q.list();
+		return listOfStudents;
 	}
 }
