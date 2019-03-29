@@ -86,6 +86,7 @@ public class StudentsController {
 		
 		model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
 		model.addAttribute("student", DatabaseConnector.getInstance().getStudent(studentId).get(0));
+		model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
 		
 		return "studentForm";
 	}
@@ -107,9 +108,11 @@ public class StudentsController {
 		student.setPesel(PESEL);
 		
 		DatabaseConnector.getInstance().addStudent(student, classID);
+		model.addAttribute("student", DatabaseConnector.getInstance().getStudent(studentId).get(0));
 		model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
     	model.addAttribute("studentWithClass", DatabaseConnector.getInstance().joinStudentWithClass());
     	model.addAttribute("studentWithSchool", DatabaseConnector.getInstance().joinStudentWithClassAndSchool());
+    	model.addAttribute("schoolClassSchool", DatabaseConnector.getInstance().joinClassWithSchool());
     	
     	return "studentsList";
 	}			

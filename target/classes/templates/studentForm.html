@@ -6,17 +6,33 @@
     <div layout:fragment="content">
     <div th:include="menuFragment" ></div>
     	<br/><br/>
-	   			<form action="CreateStudent" method="POST">
+	   			<form th:action="${student} ? 'UpdateStudent' : 'CreateStudent'" method="POST">
+	   			<input type="hidden" name="studentId" th:value="${student} ? ${student.id} : ''"></input>
 					<table>
-						<tr><td>Imię:</td><td><input type="text" name="studentName" /></td></tr>
-						<tr><td>Nazwisko:</td><td><input type="text" name="studentSurname" /></td></tr>
-						<tr><td>PESEL:</td><td><input type="text" name="studentPESEL" /></td></tr>
-						<tr><td>Szkoła i profil:</td><td><select class="form-control" name="studentSchoolClass" id="studentSchoolClass">
+						<tr>
+                    		<td>Imię:</td>
+                    		<td><input type="text" name="studentName" th:value="${student} ? ${student.name} : ''" /></td>
+                		</tr>
+						
+						<tr>
+							<td>Nazwisko:</td>
+							<td><input type="text" name="studentSurname" th:value="${student} ? ${student.surname} : ''" /></td>
+						</tr>
+						
+						<tr>
+							<td>PESEL:</td>
+							<td><input type="text" name="studentPESEL" th:value="${student} ? ${student.pesel} : ''" /></td>
+						</tr>
+						
+						<tr>
+							<td>Szkoła i profil:</td>
+							<td><select class="form-control" name="studentSchoolClass" id="studentSchoolClass">
 											    <option value="-1">---</option>
 											    <option th:each="schoolClass: ${schoolClassSchool}" th:value="${schoolClass[1].id}" th:text="${schoolClass[0].name} + ', profil: ' + ${schoolClass[1].profile}"></option>
 											    </select></td></tr>
 					</table><br/><BR/>
-					<input type="submit" value="Utwórz"/>
+					<button class="btn btn-primary" type="submit"><span
+                    th:text="${student} ? 'Edytuj' : 'Utwórz'"></span></button>
 				</form>
     </div>
 
